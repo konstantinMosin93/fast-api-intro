@@ -4,6 +4,7 @@
 * An application is tiny warehouse to store books.
 * In the app realize CRUD operations and integrated tests to test them.
 * Python 3.10 is required
+* Try to use this app on Heroku. ---> **[Link](https://km93-fast-api-book-app.herokuapp.com)** 
 
 ## Local Setup & Run
 

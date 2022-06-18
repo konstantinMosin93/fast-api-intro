@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+aiosqlite
+sqlmodel
+sqlalchemy
+pytest
+pytest-asyncio
+python-decouple
+requests

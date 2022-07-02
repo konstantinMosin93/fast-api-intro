@@ -1,3 +1,4 @@
+import json
 import pytest
 import pytest_asyncio
 from fastapi.testclient import TestClient
@@ -24,6 +25,16 @@ async def session_fixture():
         yield session
 
 
+@pytest_asyncio.fixture(name="stored_book")
+async def get_store_book_fixture(session: AsyncSession):
+    stored_book = {"title": "Book 1", "description": "Detective", "pages": 300}
+    book = Book(**stored_book)
+    session.add(book)
+    await session.commit()
+    await session.refresh(book)
+    return json.loads(book.json())
+
+
 @pytest.fixture(name="client")
 def client_fixture(session: AsyncSession):
     def get_session_override():
@@ -37,80 +48,39 @@ def client_fixture(session: AsyncSession):
 
 
 def test_create_book(client: TestClient, session: AsyncSession):
-    response = client.post(
-        "/book/",
-        json={"title": "Book 2", "description": "Detective", "pages": 300}
-    )
+    book_data = {"title": "Book 2", "description": "Detective", "pages": 300}
+    response = client.post("/book/", json=book_data)
     assert response.status_code == 201
     id_ = response.json().get("id")
-
-    async def get_book():
-        return await session.get(Book, id_)
-
-    stored_book = asyncio.run(get_book()).dict()
-
-    assert stored_book.get("title") == "Book 2"
-    assert stored_book.get("description") == "Detective"
-    assert stored_book.get("pages") == 300
+    created_book = asyncio.run(session.get(Book, id_)).dict()
+    for key in book_data.keys():
+        assert created_book.get(key) == book_data.get(key)
+    assert created_book.get("id") == id_
 
 
-def test_read_book(client: TestClient, session: AsyncSession):
-    stored_book = {"title": "Book 3", "description": "Detective", "pages": 300}
-
-    async def add_book():
-        book = Book(**stored_book)
-        session.add(book)
-        await session.commit()
-
-    asyncio.run(add_book())
-
-    response = client.get("/book/1")
+def test_read_book(client: TestClient, stored_book):
+    id_ = stored_book.get("id")
+    response = client.get(f"/book/{id_}")
     retrieved_book = response.json()
     assert response.status_code == 200
-    assert retrieved_book.get("title") == "Book 3"
-    assert retrieved_book.get("description") == "Detective"
-    assert retrieved_book.get("pages") == 300
+    for key in retrieved_book.keys():
+        assert retrieved_book.get(key) == stored_book.get(key)
 
 
-def test_update_book(client: TestClient, session: AsyncSession):
-    stored_book = {"title": "Book 4", "description": "Detective", "pages": 300}
-
-    async def add_book():
-        book = Book(**stored_book)
-        session.add(book)
-        await session.commit()
-
-    asyncio.run(add_book())
-
-    response = client.put(
-        "/book/1",
-        json={"title": "Book 5", "description": "True Detective", "pages": 350}
-    )
+def test_update_book(client: TestClient, stored_book):
+    id_ = stored_book.get("id")
+    book_data = {"title": "Book 3", "description": "True Detective", "pages": 350}
+    response = client.put(f"/book/{id_}", json=book_data)
     assert response.status_code == 200
     updated_book = response.json()
-    assert updated_book.get("id") == 1
-    assert stored_book.get("title") != updated_book.get("title")
-    assert stored_book.get("description") != updated_book.get("description")
-    assert stored_book.get("pages") != updated_book.get("pages")
-    assert updated_book.get("title") == "Book 5"
-    assert updated_book.get("description") == "True Detective"
-    assert updated_book.get("pages") == 350
+    for key in book_data.keys():
+        assert book_data.get(key) == updated_book.get(key)
+        assert stored_book.get(key) != updated_book.get(key)
+    assert updated_book.get("id") == stored_book.get("id")
 
 
-def test_delete_book(client: TestClient, session: AsyncSession):
-    stored_book = {"title": "Book 6", "description": "Detective", "pages": 300}
-
-    async def add_book():
-        book = Book(**stored_book)
-        session.add(book)
-        await session.commit()
-
-    asyncio.run(add_book())
-
-    response = client.delete("/book/1")
+def test_delete_book(client: TestClient, session: AsyncSession, stored_book):
+    id_ = stored_book.get("id")
+    response = client.delete(f"/book/{id_}")
     assert response.status_code == 204
-
-    async def get_book():
-        return await session.get(Book, 1)
-
-    assert asyncio.run(get_book()) is None
+    assert asyncio.run(session.get(Book, id_)) is None

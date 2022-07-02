@@ -1,12 +1,15 @@
-fastapi
-uvicorn
 aiosqlite
-sqlmodel
-sqlalchemy
+coverage
+fastapi
+pre-commit
 pytest
 pytest-asyncio
+pytest-env
 python-decouple
 requests
+sqlalchemy
+sqlmodel
+uvicorn
 # to Postgres db
 # asyncpg
 # psycopg2

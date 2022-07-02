@@ -4,6 +4,7 @@ fastapi
 pre-commit
 pytest
 pytest-asyncio
+pytest-env
 python-decouple
 requests
 sqlalchemy

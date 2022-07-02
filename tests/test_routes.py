@@ -69,7 +69,11 @@ def test_read_book(client: TestClient, stored_book):
 
 def test_update_book(client: TestClient, stored_book):
     id_ = stored_book.get("id")
-    book_data = {"title": "Book 3", "description": "True Detective", "pages": 350}
+    book_data = {
+        "title": "Book 3",
+        "description": "True Detective",
+        "pages": 350,
+    }
     response = client.put(f"/book/{id_}", json=book_data)
     assert response.status_code == 200
     updated_book = response.json()
@@ -84,3 +88,7 @@ def test_delete_book(client: TestClient, session: AsyncSession, stored_book):
     response = client.delete(f"/book/{id_}")
     assert response.status_code == 204
     assert asyncio.run(session.get(Book, id_)) is None
+
+
+if __name__ == "__main__":
+    pytest.main()

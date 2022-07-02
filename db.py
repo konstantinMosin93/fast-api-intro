@@ -3,7 +3,7 @@ from decouple import config
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import SQLModel
 
-DB_URL = config("DB_URL")
+DB_URL = config("DB_URL", default="")
 engine = create_async_engine(DB_URL)
 
 

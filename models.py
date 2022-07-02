@@ -24,9 +24,7 @@ class Book(BookBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     created_at: datetime.datetime = Field(
         sa_column=Column(
-            DateTime,
-            server_default=sqlalchemy.func.now(),
-            nullable=False
+            DateTime, server_default=sqlalchemy.func.now(), nullable=False
         )
     )
     last_modified_at: datetime.datetime = Field(
@@ -34,6 +32,6 @@ class Book(BookBase, table=True):
             DateTime,
             server_default=sqlalchemy.func.now(),
             onupdate=sqlalchemy.func.now(),
-            nullable=False
+            nullable=False,
         )
     )

@@ -10,17 +10,21 @@ import crud
 router = APIRouter(
     prefix="/book",
     tags=["books"],
-    responses={404: {"description": "Not found"}}
+    responses={404: {"description": "Not found"}},
 )
 
 
-@router.post("/",
-             response_model=BookOut,
-             response_model_exclude={"last_modified_at"},
-             status_code=201,
-             summary="Create Book",
-             response_description="The created book",)
-async def create_book(book: BookIn, session: AsyncSession = Depends(get_session)):
+@router.post(
+    "/",
+    response_model=BookOut,
+    response_model_exclude={"last_modified_at"},
+    status_code=201,
+    summary="Create Book",
+    response_description="The created book",
+)
+async def create_book(
+    book: BookIn, session: AsyncSession = Depends(get_session)
+):
     """
     Create a book with all the information:
     - **title**: each book must have a title
@@ -30,18 +34,26 @@ async def create_book(book: BookIn, session: AsyncSession = Depends(get_session)
     return await crud.create_book(book, session)
 
 
-@router.get("/{book_id}",
-            response_model=BookOut,
-            summary="Read Book",
-            description="To read all book information you should pass book id.",)
-async def read_book(book_id: int, session: AsyncSession = Depends(get_session)):
+@router.get(
+    "/{book_id}",
+    response_model=BookOut,
+    summary="Read Book",
+    description="To read all book information you should pass book id.",
+)
+async def read_book(
+    book_id: int, session: AsyncSession = Depends(get_session)
+):
     return await crud.read_book(book_id, session)
 
 
-@router.put("/{book_id}",
-            response_model=BookOut,
-            summary="Update Book",)
-async def update_book(book_id: int, book: BookIn, session: AsyncSession = Depends(get_session)):
+@router.put(
+    "/{book_id}",
+    response_model=BookOut,
+    summary="Update Book",
+)
+async def update_book(
+    book_id: int, book: BookIn, session: AsyncSession = Depends(get_session)
+):
     """
     Update a one or more than one book fields:
     - **title**: a new book title
@@ -51,10 +63,14 @@ async def update_book(book_id: int, book: BookIn, session: AsyncSession = Depend
     return await crud.update_book(book_id, book, session)
 
 
-@router.delete("/{book_id}",
-               summary="Delete book",
-               response_model_exclude={"created_at"},
-               description="To delete book you should pass book id.",)
-async def delete_book(book_id: int, session: AsyncSession = Depends(get_session)):
+@router.delete(
+    "/{book_id}",
+    summary="Delete book",
+    response_model_exclude={"created_at"},
+    description="To delete book you should pass book id.",
+)
+async def delete_book(
+    book_id: int, session: AsyncSession = Depends(get_session)
+):
     await crud.delete_book(book_id, session)
     return Response(status_code=status.HTTP_204_NO_CONTENT)

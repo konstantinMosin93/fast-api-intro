@@ -1,9 +1,10 @@
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from decouple import config
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import SQLModel
 
-DB_URL = config("DB_URLS", default="")
+DB_URL = config("DB_URL")
 if DB_URL:
     engine = create_async_engine(DB_URL)
 

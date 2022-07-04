@@ -35,7 +35,7 @@ cd fast-api-intro
 docker build -t bookapp .
 docker run --name testbookapp -e DB_URL=sqlite+aiosqlite:///./[database_name].db -p 80:80 bookapp
 ````
-* The Book App Client will be available at http://0.0.0.0/docs
+* The Book App Client will be available at http://0.0.0.0:80/docs
 
 ## Author
 

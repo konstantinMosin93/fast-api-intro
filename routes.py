@@ -1,10 +1,13 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
+from fastapi import Depends
 from fastapi import status
 from fastapi.responses import Response
-from models import BookIn, BookOut
 from sqlalchemy.ext.asyncio import AsyncSession
-from db import get_session
+
 import crud
+from db import get_session
+from models import BookIn
+from models import BookOut
 
 
 router = APIRouter(
@@ -66,11 +69,10 @@ async def update_book(
 @router.delete(
     "/{book_id}",
     summary="Delete book",
-    response_model_exclude={"created_at"},
     description="To delete book you should pass book id.",
 )
 async def delete_book(
     book_id: int, session: AsyncSession = Depends(get_session)
-):
+) -> Response:
     await crud.delete_book(book_id, session)
     return Response(status_code=status.HTTP_204_NO_CONTENT)

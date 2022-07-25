@@ -1,7 +1,6 @@
 import datetime
 
 import sqlalchemy
-from pydantic import HttpUrl
 from sqlmodel import Column
 from sqlmodel import DateTime
 from sqlmodel import Field
@@ -22,7 +21,6 @@ class BookOut(BookBase):
     id: int
     created_at: datetime.datetime
     last_modified_at: datetime.datetime
-    url: HttpUrl
 
 
 class Book(BookBase, table=True):

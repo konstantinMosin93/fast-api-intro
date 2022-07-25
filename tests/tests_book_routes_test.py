@@ -4,7 +4,7 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from models import Book
+from src.models import Book
 
 
 def test_create_book(client: TestClient, session: AsyncSession):

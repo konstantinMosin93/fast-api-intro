@@ -1,7 +1,10 @@
 import datetime
 
 import sqlalchemy
-from sqlmodel import SQLModel, Field, Column, DateTime
+from sqlmodel import Column
+from sqlmodel import DateTime
+from sqlmodel import Field
+from sqlmodel import SQLModel
 
 
 class BookBase(SQLModel):
@@ -24,7 +27,9 @@ class Book(BookBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     created_at: datetime.datetime = Field(
         sa_column=Column(
-            DateTime, server_default=sqlalchemy.func.now(), nullable=False
+            DateTime,
+            server_default=sqlalchemy.func.now(),
+            nullable=False,
         )
     )
     last_modified_at: datetime.datetime = Field(

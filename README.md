@@ -18,7 +18,7 @@ pip install -r requirements.txt
 **Note:** Before running needed prepare **.env** file, according to the **.env.example** file. Example to **DB_URL**: **sqlite+aiosqlite:///./book.db**
 * To run App.
 ````
-uvicorn main:app --reload
+uvicorn src.main:app --reload
 ````
 * The Book App Client will be available at http://127.0.0.1:8000/docs
 

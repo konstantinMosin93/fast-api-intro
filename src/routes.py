@@ -4,10 +4,10 @@ from fastapi import status
 from fastapi.responses import Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
-import crud
-from db import get_session
-from models import BookIn
-from models import BookOut
+import src.crud as crud
+from src.db import get_session
+from src.models import BookIn
+from src.models import BookOut
 
 
 router = APIRouter(

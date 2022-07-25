@@ -8,9 +8,9 @@ from sqlalchemy.ext.asyncio import create_async_engine
 from sqlmodel import SQLModel
 from sqlmodel.pool import StaticPool
 
-from db import get_session
-from main import app
-from models import Book
+from src.db import get_session
+from src.main import app
+from src.models import Book
 
 
 @pytest_asyncio.fixture(name="session")

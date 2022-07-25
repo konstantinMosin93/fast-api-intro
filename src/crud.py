@@ -2,8 +2,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlmodel import delete
 from sqlmodel import update
 
-from models import Book
-from models import BookIn
+from src.models import Book
+from src.models import BookIn
 
 
 async def create_book(book: BookIn, session: AsyncSession) -> Book:

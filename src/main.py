@@ -5,7 +5,7 @@ from src.db import init_db
 from src.routes import router
 
 
-app = FastAPI()
+app = FastAPI(description='FastAPI_Intro')
 app.include_router(router)
 
 

@@ -14,11 +14,11 @@ from src.main import app
 from src.models import Book
 
 
-@pytest_asyncio.fixture(name="session")
+@pytest_asyncio.fixture(name='session')
 async def session_fixture() -> AsyncSession:
     engine = create_async_engine(
-        "sqlite+aiosqlite://",
-        connect_args={"check_same_thread": False},
+        'sqlite+aiosqlite://',
+        connect_args={'check_same_thread': False},
         poolclass=StaticPool,
     )
     async with engine.begin() as conn:
@@ -28,9 +28,9 @@ async def session_fixture() -> AsyncSession:
         yield session
 
 
-@pytest_asyncio.fixture(name="stored_book")
+@pytest_asyncio.fixture(name='stored_book')
 async def store_book_fixture(session: AsyncSession) -> Dict[str, Any]:
-    stored_book = {"title": "Book 1", "description": "Detective", "pages": 300}
+    stored_book = {'title': 'Book 1', 'description': 'Detective', 'pages': 300}
     book = Book(**stored_book)
     session.add(book)
     await session.commit()
@@ -38,7 +38,7 @@ async def store_book_fixture(session: AsyncSession) -> Dict[str, Any]:
     return json.loads(book.json())
 
 
-@pytest.fixture(name="client")
+@pytest.fixture(name='client')
 def client_fixture(session: AsyncSession) -> TestClient:
     def get_session_override() -> AsyncSession:
         return session

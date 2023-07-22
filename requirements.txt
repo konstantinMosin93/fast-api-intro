@@ -53,6 +53,7 @@ pytest
 pytest-asyncio
 pytest-env
 python-decouple
+pre-commit
 PyYAML
 requests
 rich

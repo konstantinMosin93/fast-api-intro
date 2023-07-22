@@ -11,19 +11,19 @@ from src.models import BookOut
 
 
 router = APIRouter(
-    prefix="/book",
-    tags=["books"],
-    responses={404: {"description": "Not found"}},
+    prefix='/book',
+    tags=['books'],
+    responses={404: {'description': 'Not found'}},
 )
 
 
 @router.post(
-    "/",
+    '/',
     response_model=BookOut,
-    response_model_exclude={"last_modified_at"},
+    response_model_exclude={'last_modified_at'},
     status_code=201,
-    summary="Create Book",
-    response_description="The created book",
+    summary='Create Book',
+    response_description='The created book',
 )
 async def create_book(
     book: BookIn, session: AsyncSession = Depends(get_session)
@@ -38,10 +38,10 @@ async def create_book(
 
 
 @router.get(
-    "/{book_id}",
+    '/{book_id}',
     response_model=BookOut,
-    summary="Read Book",
-    description="To read all book information you should pass book id.",
+    summary='Read Book',
+    description='To read all book information you should pass book id.',
 )
 async def read_book(
     book_id: int, session: AsyncSession = Depends(get_session)
@@ -50,9 +50,9 @@ async def read_book(
 
 
 @router.put(
-    "/{book_id}",
+    '/{book_id}',
     response_model=BookOut,
-    summary="Update Book",
+    summary='Update Book',
 )
 async def update_book(
     book_id: int, book: BookIn, session: AsyncSession = Depends(get_session)
@@ -67,9 +67,9 @@ async def update_book(
 
 
 @router.delete(
-    "/{book_id}",
-    summary="Delete book",
-    description="To delete book you should pass book id.",
+    '/{book_id}',
+    summary='Delete book',
+    description='To delete book you should pass book id.',
 )
 async def delete_book(
     book_id: int, session: AsyncSession = Depends(get_session)

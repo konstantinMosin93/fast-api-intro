@@ -1,5 +1,28 @@
 [flake8]
-ignore = E203, E266, E501, W503, F403, F401
 max-line-length = 79
 max-complexity = 18
-select = B,C,E,F,W,T4,B9
+exclude =
+    venv/*
+    .venv/*
+    .git/*
+    __pycache__/*
+    __init__.py
+    **/migrations/*
+    .mypy_cache/*
+    .pytest_cache/*
+    manage.py
+filename =
+    **/src/*.py
+    **/tests/*.py
+ignore =
+    # ANN101: Missing type annotation for self in method
+    ANN101,
+    # ANN102: Missing type annotation for cls in class method
+    ANN102,
+    # ANN401: Dynamically typed expressions (typing.Any) are disallowed
+    ANN401,
+    # W503: Line break occurred before a binary operator
+    W503,
+    E203, E266, E501, W503, F403, F401, B008
+per-file-ignores =
+    tests/** : S101, S105, S311, ANN001, ANN401, B009, B008, B010

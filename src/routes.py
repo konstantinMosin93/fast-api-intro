@@ -27,7 +27,7 @@ router = APIRouter(
 )
 async def create_book(
     book: BookIn, session: AsyncSession = Depends(get_session)
-):
+) -> Response:
     """
     Create a book with all the information:
     - **title**: each book must have a title
@@ -45,7 +45,7 @@ async def create_book(
 )
 async def read_book(
     book_id: int, session: AsyncSession = Depends(get_session)
-):
+) -> Response:
     return await crud.read_book(book_id, session)
 
 
@@ -56,7 +56,7 @@ async def read_book(
 )
 async def update_book(
     book_id: int, book: BookIn, session: AsyncSession = Depends(get_session)
-):
+) -> Response:
     """
     Update a one or more than one book fields:
     - **title**: a new book title

@@ -1,4 +1,5 @@
 import json
+from typing import Dict, Any
 
 import pytest
 import pytest_asyncio
@@ -14,7 +15,7 @@ from src.models import Book
 
 
 @pytest_asyncio.fixture(name="session")
-async def session_fixture():
+async def session_fixture() -> AsyncSession:
     engine = create_async_engine(
         "sqlite+aiosqlite://",
         connect_args={"check_same_thread": False},
@@ -28,7 +29,7 @@ async def session_fixture():
 
 
 @pytest_asyncio.fixture(name="stored_book")
-async def get_store_book_fixture(session: AsyncSession):
+async def store_book_fixture(session: AsyncSession) -> Dict[str, Any]:
     stored_book = {"title": "Book 1", "description": "Detective", "pages": 300}
     book = Book(**stored_book)
     session.add(book)
@@ -38,8 +39,8 @@ async def get_store_book_fixture(session: AsyncSession):
 
 
 @pytest.fixture(name="client")
-def client_fixture(session: AsyncSession):
-    def get_session_override():
+def client_fixture(session: AsyncSession) -> TestClient:
+    def get_session_override() -> AsyncSession:
         return session
 
     app.dependency_overrides[get_session] = get_session_override

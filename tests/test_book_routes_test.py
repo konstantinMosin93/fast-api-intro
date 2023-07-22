@@ -1,5 +1,6 @@
 import asyncio
-from typing import Dict, Any
+from typing import Any
+from typing import Dict
 
 import pytest
 from fastapi.testclient import TestClient
